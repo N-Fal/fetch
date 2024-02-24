@@ -19,6 +19,9 @@ function submitForm()
     {
         document.getElementById('output').innerHTML = input;
         console.log("received ", input);
+
+        // consider adding a db of card names to ensure there are no pointless API calls
+        getCardInfo(buildURL(input))
     }
 }
 
@@ -36,8 +39,42 @@ function rateLimit(t) {
     }, t);
 }
 
-function bgColor()
+// constructs the api call based on the search term
+function buildURL(name)
 {
-    var bgId = document.getElementById('background');
-    bgId.style = getCardColor()
+    console.log("search term: ", name);
+    urlstring = "https://api.scryfall.com/cards/named?fuzzy=";
+    name.split(" ").forEach(element => {
+        urlstring += element;
+        urlstring += "+";
+    });
+
+    return urlstring
+}
+
+// creates the JSON based on the card URL
+function getCardInfo(apiURL)
+{
+    let responseData = {};
+
+    fetch(apiURL).then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok :(');
+        }
+
+        return response.json();
+    }).then(data => {
+        responseData = data;
+        console.log('Card info: ', responseData);
+        populateWindow(responseData);
+    }).catch(error => {
+        console.error('There was a problem with the fetch operation: ', error)
+    })
+}
+
+// puts all the info from the JSON into the elements of the popup window
+function populateWindow(responseData)
+{
+    // example:
+    document.getElementById("img").src = responseData.image_uris.normal;
 }
