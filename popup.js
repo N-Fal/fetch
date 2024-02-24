@@ -24,6 +24,9 @@ function submitForm()
 
 // prevents user from entering another name for 't' ms
 function rateLimit(t) {
+    if (t < 100)
+        t = 100
+
     console.log("disabling input for ", t, " ms");
     document.getElementById("textInput").disabled = true;
 
