@@ -1,0 +1,15 @@
+{
+    "manifest_version": 3,
+    "name": "Fetch",
+    "version": "1.0.0",
+    "description": "fetch card images and data from scryfall API for on-the-fly deckbuilding and research",
+    "author": "Nolan Fallin",
+    "icons": {
+        "128": "./images/ext_icon.png"
+    },
+    "action": {
+        "default_popup": "popup.html",
+        "default_icon": "./images/ext_icon.png", 
+        "default_title": "Fetch"
+    }
+}
