@@ -69,6 +69,23 @@ function getCardInfo(apiURL) {
 
 // puts all the info from the JSON into the elements of the popup window
 function populateWindow(responseData) {
-    // example:
     document.getElementById("img").src = responseData.image_uris.normal;
+    document.getElementById("output").innerHTML = "<a href=\"See " + responseData.related_uris.edhrec + "\" target=\"_blank\">" + responseData.name + " on EDHREC</a>"
+    document.getElementById("title").innerHTML = responseData.name;
+    document.getElementById("background").style = "background-color:" + getBg(responseData.colors) + ";"
+    document.getElementById("stats").innerHTML = "price: $" + responseData.prices.usd;
+}
+
+// map of background colors and the characters used to depict color identity in the API
+// might change these later so they look better
+let bgMap = new Map();
+bgMap.set('B', "#bfbfbf");
+bgMap.set('G', "#adf6b6");
+bgMap.set('R', "#ffc09f");
+bgMap.set('U', "#a0ced9");
+bgMap.set('W', "#fcf5c7");
+
+function getBg(colors)
+{
+    return bgMap.get(colors[0])
 }
