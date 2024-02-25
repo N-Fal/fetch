@@ -92,19 +92,20 @@ function populateWindow(responseData) {
         document.getElementById("img").src = responseData.card_faces[0].image_uris.normal;
     }
 
+    populate("title", responseData.name);
+    populate("price", "price: $" + responseData.prices.usd);
+    populate("edhrec", "<a href=\"" + responseData.related_uris.edhrec + "\" target=\"_blank\">EDHREC</a>");
+    populate("gatherer", "<a href=\"" + responseData.related_uris.gatherer + "\" target=\"_blank\">gatherer</a>");
+    populate("decks", "<a href=\"" + responseData.related_uris.tcgplayer_infinite_decks + "\" target=\"_blank\">decklists</a>");
+    populate("articles", "<a href=\"" + responseData.related_uris.tcgplayer_infinite_articles + "\" target=\"_blank\">articles</a>");
+    populate("cardmarket", "<a href=\"" + responseData.purchase_uris.cardmarket + "\" target=\"_blank\">cardmarket</a>");
+    populate("cardkingdom", "<a href=\"" + cardMarketLink(responseData.name) + "\" target=\"_blank\">cardkindom</a>");
+    populate("tcgplayer", "<a href=\"" + responseData.purchase_uris.tcgplayer + "\" target=\"_blank\">tcgplayer</a>");
+}
 
-
-    
-    document.getElementById("background").style = "background-color:" + getBg(responseData.colors) + ";"
-    document.getElementById("title").innerHTML = responseData.name;
-    document.getElementById("price").innerHTML = "price: $" + responseData.prices.usd;
-    document.getElementById("edhrec").innerHTML = "<a href=\"" + responseData.related_uris.edhrec + "\" target=\"_blank\">EDHREC</a>"
-    document.getElementById("gatherer").innerHTML = "<a href=\"" + responseData.related_uris.gatherer + "\" target=\"_blank\">gatherer</a>"
-    document.getElementById("decks").innerHTML = "<a href=\"" + responseData.related_uris.tcgplayer_infinite_decks + "\" target=\"_blank\">decklists</a>"
-    document.getElementById("articles").innerHTML = "<a href=\"" + responseData.related_uris.tcgplayer_infinite_articles + "\" target=\"_blank\">articles</a>"
-    document.getElementById("cardmarket").innerHTML = "<a href=\"" + responseData.purchase_uris.cardmarket + "\" target=\"_blank\">cardmarket</a>"
-    document.getElementById("cardkingdom").innerHTML = "<a href=\"" + cardMarketLink(responseData.name) + "\" target=\"_blank\">cardkindom</a>"
-    document.getElementById("tcgplayer").innerHTML = "<a href=\"" + responseData.purchase_uris.tcgplayer + "\" target=\"_blank\">tcgplayer</a>"
+// abstraction
+function populate(id, info) {
+    document.getElementById(id).innerHTML = info;
 }
 
 function cardMarketLink(name) {
