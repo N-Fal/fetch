@@ -46,7 +46,7 @@ function buildURL(name) {
         urlstring += "+";
     });
 
-    return urlstring
+    return urlstring;
 }
 
 // creates the JSON based on the card URL
@@ -69,11 +69,53 @@ function getCardInfo(apiURL) {
 
 // puts all the info from the JSON into the elements of the popup window
 function populateWindow(responseData) {
-    document.getElementById("img").src = responseData.image_uris.normal;
-    document.getElementById("output").innerHTML = "<a href=\"See " + responseData.related_uris.edhrec + "\" target=\"_blank\">" + responseData.name + " on EDHREC</a>"
-    document.getElementById("title").innerHTML = responseData.name;
+
+    // example url for card kingdom: https://www.cardkingdom.com/catalog/search?search=header&filter%5Bname%5D=Emry%2C+Lurker+of+the+Loch
+
+
+    // front face
+    // responseData.card_faces[0].image_uris.normal
+    // back face
+    // responseData.card_face[1].image_uris.normal
+
+    // <p id="price">[price]</p>
+    // <p id="edhrec">[edhrec]</p>
+    // <p id="gatherer">[gatherer]</p>
+    // <p id="articles">[articles]</p>
+    // <p id="cardmarket">[cardmarket]</p>
+    // <p id="tcgplayer">[tcgplayer]</p>
+
+    try {
+        document.getElementById("img").src = responseData.image_uris.normal;
+    } catch (error) {
+        console.log("card is two-faced, printing front side")
+        document.getElementById("img").src = responseData.card_faces[0].image_uris.normal;
+    }
+
+
+
+    
     document.getElementById("background").style = "background-color:" + getBg(responseData.colors) + ";"
-    document.getElementById("stats").innerHTML = "price: $" + responseData.prices.usd;
+    document.getElementById("title").innerHTML = responseData.name;
+    document.getElementById("price").innerHTML = "price: $" + responseData.prices.usd;
+    document.getElementById("edhrec").innerHTML = "<a href=\"" + responseData.related_uris.edhrec + "\" target=\"_blank\">EDHREC</a>"
+    document.getElementById("gatherer").innerHTML = "<a href=\"" + responseData.related_uris.gatherer + "\" target=\"_blank\">gatherer</a>"
+    document.getElementById("decks").innerHTML = "<a href=\"" + responseData.related_uris.tcgplayer_infinite_decks + "\" target=\"_blank\">decklists</a>"
+    document.getElementById("articles").innerHTML = "<a href=\"" + responseData.related_uris.tcgplayer_infinite_articles + "\" target=\"_blank\">articles</a>"
+    document.getElementById("cardmarket").innerHTML = "<a href=\"" + responseData.purchase_uris.cardmarket + "\" target=\"_blank\">cardmarket</a>"
+    document.getElementById("cardkingdom").innerHTML = "<a href=\"" + cardMarketLink(responseData.name) + "\" target=\"_blank\">cardkindom</a>"
+    document.getElementById("tcgplayer").innerHTML = "<a href=\"" + responseData.purchase_uris.tcgplayer + "\" target=\"_blank\">tcgplayer</a>"
+}
+
+function cardMarketLink(name) {
+    urlString = "https://www.cardkingdom.com/catalog/search?search=header&filter%5Bname%5D=";
+    name.split(" ").forEach(element => {
+        urlString += element;
+        urlString += "+";
+    });
+
+    console.log(urlString)
+    return urlString;
 }
 
 // map of background colors and the characters used to depict color identity in the API
