@@ -4,19 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fetch</title>
+    <style>
+        body {
+            width: 300px;
+        }
+    </style>
     <link rel="stylesheet" href="./style.css">
     <script src="popup.js" defer></script>
 </head>
 <body id="background">
+    
     <h2 id="title">Fetch</h2>
-    <p>paste a card name and hit 'fetch'</p>
-    <img id="img" src="./images/card.jpg" alt="Company Logo">
 
-    <form id="name_form">
-        <label for="textInput">Enter Text:</label><br>
-        <input type="text" id="textInput" name="textInput"><br>
-    </form>
-    <p id="stats"></p>
-    <p id="output">Enter a name to update</p>
+    <div id="container">
+        <div id="left">
+            <img id="img" src="./images/card.jpg" alt="Company Logo">
+        
+            <form id="name_form">
+                <label for="textInput">Enter a card name:</label><br>
+                <input type="text" id="textInput" name="textInput"><br>
+            </form>
+        </div>
+
+            
+        <div id="right">
+            <p id="price">[price]</p>
+            <p id="edhrec">[edhrec]</p>
+            <p id="gatherer">[gatherer]</p>
+            <p id="decks">[decks]</p>
+            <p id="articles">[articles]</p>
+            <p id="cardmarket">[cardmarket]</p>
+            <p id="cardkingdom">[cardkingdom]</p>
+            <p id="tcgplayer">[tcgplayer]</p>
+        </div>
+    </div>
+
+
+
 </body>
 </html>
