@@ -1,3 +1,15 @@
+#container {
+    display: flex;
+}
+
+#left, #right {
+    flex: 1;
+}
+
+#left {
+    margin: 10px;
+}
+
 #img {
     width: 200px;
     height: 300px;
