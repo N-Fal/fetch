@@ -1,3 +1,5 @@
+// stores the json for the API response so it can be accessed globally (TEMPORARY FIX)
+let responseData = {};
 
 // listens for text input on the popup and passes the card name to submitForm()
 document.getElementById('name_form').addEventListener('keydown', function(event) {
@@ -51,7 +53,7 @@ function buildURL(name) {
 
 // creates the JSON based on the card URL
 function getCardInfo(apiURL) {
-    let responseData = {};
+    // let responseData = {};
 
     fetch(apiURL).then(response => {
         if (!response.ok) {
@@ -85,13 +87,29 @@ function populateWindow(responseData) {
     // <p id="cardmarket">[cardmarket]</p>
     // <p id="tcgplayer">[tcgplayer]</p>
 
+    // function docListener() {
+    //     var button = document.getElementById('imgButton')
+    //     button.addEventListener('click', buttonListener)
+    // }
+    // function buttonListener() {
+    //     document.getElementById("description").innerHTML = "This is where the score and resulting information will show"
+    // }
+    // document.addEventListener('DOMContentLoaded', docListener)
+        
+    
     try {
-        document.getElementById("img").src = responseData.image_uris.normal;
+        populateImg("img", responseData.image_uris.normal)
+        populate("flipButton", "<button id=\"button\" style=\"display: none;\">flip</button>");
     } catch (error) {
-        console.log("card is two-faced, printing front side")
-        document.getElementById("img").src = responseData.card_faces[0].image_uris.normal;
+        // add button to div and add listener
+        populate("flipButton", "<button id=\"button\">flip</button>");
+        console.log("card is two-faced, printing front side");
+
+
+        populateImg("img", responseData.card_faces[0].image_uris.normal)
     }
 
+    populateStyle("background", "background-color:" + getBg(responseData.colors) + ";");
     populate("title", responseData.name);
     populate("price", "price: $" + responseData.prices.usd);
     populate("edhrec", "<a href=\"" + responseData.related_uris.edhrec + "\" target=\"_blank\">EDHREC</a>");
@@ -108,6 +126,14 @@ function populate(id, info) {
     document.getElementById(id).innerHTML = info;
 }
 
+function populateImg(id, info) {
+    document.getElementById(id).src = info;
+}
+
+function populateStyle(id, info) {
+    document.getElementById(id).style = info
+}
+
 function cardMarketLink(name) {
     urlString = "https://www.cardkingdom.com/catalog/search?search=header&filter%5Bname%5D=";
     name.split(" ").forEach(element => {
@@ -117,6 +143,23 @@ function cardMarketLink(name) {
 
     console.log(urlString)
     return urlString;
+}
+
+var flipped = 0;
+document.addEventListener('DOMContentLoaded', flipButtonListener)
+function flipButtonListener() {
+    var button = document.getElementById('flipButton')
+    button.addEventListener('click', function() {
+        console.log("flip button got pressded");
+
+        // bro what was I thinking
+        // if (flipped == 0)
+        //     flipped = 1;
+        // else flipped = 0;
+
+        flipped = ++flipped % 2;
+        populateImg("img", responseData.card_faces[flipped].image_uris.normal);
+    })
 }
 
 // map of background colors and the characters used to depict color identity in the API
